@@ -351,7 +351,7 @@ func (mi *StorageInitializerInjector) InjectStorageInitializer(pod *v1.Pod) erro
 		if envVar.Name == constants.CustomSpecStorageMountPathKey && envVar.Value != "" {
 			sharedVolumeWriteMount.MountPath = envVar.Value
 		} else if envVar.Name == constants.CustomSpecStorageMountPathKey && envVar.Value == "" {
-			sharedVolumeWriteMount.MountPath = constants.DefaultModelLocalMountPath // 設置為默認值
+			sharedVolumeWriteMount.MountPath = constants.DefaultModelLocalMountPath 
 		}
 	}
 	storageInitializerMounts = append(storageInitializerMounts, sharedVolumeWriteMount)
@@ -368,7 +368,7 @@ func (mi *StorageInitializerInjector) InjectStorageInitializer(pod *v1.Pod) erro
 	for _, envVar := range userContainer.Env {
 		if envVar.Name == constants.CustomSpecStorageMountPathKey && envVar.Value != "" {
 			args = []string{srcURI, envVar.Value}
-			break // 找到匹配項後就跳出迴圈，避免多次賦值
+			break 
 		}
 	}
 	// Add an init container to run provisioning logic to the PodSpec
