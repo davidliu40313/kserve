@@ -370,9 +370,9 @@ func (mi *StorageInitializerInjector) InjectStorageInitializer(pod *v1.Pod) erro
 
 	// Create a write mount into the shared volume
 	sharedVolumeWriteMount := v1.VolumeMount{
-		Name:		StorageInitializerVolumeName,
-		MountPath: 	constants.DefaultModelLocalMountPath,
-		ReadOnly:  	false,
+		Name:      StorageInitializerVolumeName,
+		MountPath: constants.DefaultModelLocalMountPath,
+		ReadOnly:  false,
 	}
 	for _, envVar := range userContainer.Env {
 		if envVar.Name == constants.CustomSpecStorageMountPathKey && envVar.Value != "" {
@@ -399,9 +399,9 @@ func (mi *StorageInitializerInjector) InjectStorageInitializer(pod *v1.Pod) erro
 
 	// Add an init container to run provisioning logic to the PodSpec
 	initContainer := &v1.Container{
-		Name:	StorageInitializerContainerName,
-		Image:  storageInitializerImage,
-		Args: 	args,
+		Name:                     StorageInitializerContainerName,
+		Image:                    storageInitializerImage,
+		Args:                     args,
 		TerminationMessagePolicy: v1.TerminationMessageFallbackToLogsOnError,
 		VolumeMounts:             storageInitializerMounts,
 		Resources: v1.ResourceRequirements{
