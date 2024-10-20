@@ -291,7 +291,7 @@ func (mi *StorageInitializerInjector) InjectStorageInitializer(pod *v1.Pod) erro
 				SubPath:  pvcPath,
 				ReadOnly: isvcReadonlyStringFlag,
 			}
-			
+
 			for _, envVar := range userContainer.Env {
 				if envVar.Name == constants.CustomSpecStorageMountPathKey && envVar.Value != "" {
 					pvcSourceVolumeMount.MountPath = envVar.Value
