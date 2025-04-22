@@ -40,7 +40,7 @@ def event_loop():
 async def rest_v1_client():
     v1_client = InferenceRESTClient(
         config=RESTConfig(
-            timeout=60,
+            timeout=180,
             verbose=True,
             protocol=PredictorProtocol.REST_V1,
         )
@@ -53,10 +53,24 @@ async def rest_v1_client():
 async def rest_v2_client():
     v2_client = InferenceRESTClient(
         config=RESTConfig(
-            timeout=60,
+            timeout=180,
             verbose=True,
             protocol=PredictorProtocol.REST_V2,
         )
     )
     yield v2_client
     await v2_client.close()
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--network-layer",
+        default="istio",
+        type=str,
+        help="Network layer to used for testing. Default is istio. Allowed values are istio-ingress, envoy-gatewayapi, istio-gatewayapi",
+    )
+
+
+@pytest.fixture(scope="session")
+def network_layer(request):
+    return request.config.getoption("--network-layer")
