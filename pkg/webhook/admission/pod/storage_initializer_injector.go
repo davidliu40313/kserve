@@ -161,6 +161,11 @@ func (mi *StorageInitializerInjector) InjectModelcar(pod *corev1.Pod) error {
 
 	// Mount volume initialized by the modelcar container to the user container and transformer (if exists)
 	modelParentDir := getParentDirectory(constants.DefaultModelLocalMountPath)
+	for _, envVar := range userContainer.Env {
+		if envVar.Name == constants.CustomSpecStorageMountPathKey && envVar.Value != "" {
+			modelParentDir = getParentDirectory(envVar.Value)
+		}
+	}
 	addVolumeMountIfNotPresent(userContainer, StorageInitializerVolumeName, modelParentDir)
 	if transformerContainer != nil {
 		addVolumeMountIfNotPresent(transformerContainer, StorageInitializerVolumeName, modelParentDir)
